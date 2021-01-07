@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - Collectable
+  - Enemy
+  - WallSide
+  - Enemy-Spike
+  - Background-Music
+  - GameOverPanel
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Foreground
+  - Background
+  - Player
+  - Ground
+  - Items
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 1405569417
+    locked: 0
+  - name: Grid
+    uniqueID: 715966883
+    locked: 0
+  - name: Player
+    uniqueID: 1830717651
+    locked: 0
+  - name: Collectable
+    uniqueID: 257625163
+    locked: 0
+  - name: Extra Content
+    uniqueID: 3410145505
+    locked: 0
+  - name: CanvasImage
+    uniqueID: 2446826419
+    locked: 0
