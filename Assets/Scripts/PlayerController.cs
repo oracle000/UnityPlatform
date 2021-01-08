@@ -25,24 +25,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float damage = 10f;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject CherryObject;
-
-    private AudioSource audio;
+    
     private GameObject wallSides;
     private int cherries = 0;                
     private bool hitEnemy = false;
     private bool isFalling = false;
     private bool isControlEnable = true;
     
-    private State state = State.idle;    
+    private State state = State.idle;
+
+    Player _player;
     
     void Awake()
     {        
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        coll = GetComponent<Collider2D>();
-        audio = GetComponent<AudioSource>();                
+        coll = GetComponent<Collider2D>();        
 
-        wallSides = GameObject.FindWithTag("WallSide");                
+        wallSides = GameObject.FindWithTag("WallSide");
+        _player = GetComponent<Player>();
         
     }
     void Update()
@@ -52,16 +53,7 @@ public class PlayerController : MonoBehaviour
             Movement();
         }
         SetAnimation();        
-        anim.SetInteger("state", (int)state);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-     
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-     
-        }
+        anim.SetInteger("state", (int)state);     
 
         if (transform.position.y < -10)
         {
@@ -77,28 +69,27 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        lifeText.text = FindObjectOfType<GameManager>().PlayerLife().ToString();                        
+        // lifeText.text = FindObjectOfType<GameManager>().PlayerLife().ToString();                        
 
-        if (FindObjectOfType<GameManager>().PlayerLife() < 1)
-        {
-            gameOverPanel.SetActive(true);
-            isControlEnable = false;
-            FindObjectOfType<GameManager>().GameOver();            
-        } else
-        {
-            gameOverPanel.SetActive(false);
-        }
+        //if (FindObjectOfType<GameManager>().PlayerLife() < 1)
+        //{
+        //    gameOverPanel.SetActive(true);
+        //    isControlEnable = false;
+        //    FindObjectOfType<GameManager>().GameOver();            
+        //} else
+        //{
+        //    gameOverPanel.SetActive(false);
+        //}
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        PlaySoundOnInteract playSound;
         if (collision.tag == "Collectable")
         {
-            audio.PlayOneShot(ASCherry, .5f);
-            GetComponent<AudioSource>().Play();                        
-            
+            print("xxx");
+            _player.IsItemPickUp();
             CherryObject = collision.gameObject;                        
             cherries += 1;
             cherryText.text = cherries.ToString();
@@ -109,8 +100,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other)
-    {
-        
+    {        
+
         if (other.gameObject.tag == "Enemy-Spike") 
         {            
             state = State.hurt;
@@ -123,8 +114,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(damage, rb.velocity.y);
             }
 
-            FindObjectOfType<GameManager>().UpdatePlayerLife(1);
-            audio.PlayOneShot(ASHit, .5f);
+            FindObjectOfType<GameManager>().UpdatePlayerLife(1);            
             StartCoroutine(HitRemove());         
         }
     }    
@@ -163,8 +153,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(ground))
-        {
-            audio.PlayOneShot(ASJump, .5f);
+        {            
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             state = State.jumping;
         }
