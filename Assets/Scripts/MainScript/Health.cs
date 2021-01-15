@@ -5,12 +5,7 @@ public class Health : MonoBehaviour
 {
     public event Action Damaged = delegate { };
     public event Action Healed = delegate { };
-    public event Action Killed = delegate { };
-
-    private void Awake()
-    {
-        
-    }
+    public event Action Killed = delegate { };    
 
     public void Heal()
     {

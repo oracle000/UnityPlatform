@@ -142,3 +142,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cherry: {fileID: 430203687502100878}
+  _player: {fileID: 6670214515269476834, guid: f474205bcde55074ebeb120138187d37, type: 3}

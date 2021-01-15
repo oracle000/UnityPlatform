@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     private Collider2D coll;
     private IEnumerator coroutine;
 
-
     [SerializeField] private AudioClip ASHit;
     [SerializeField] private AudioClip ASJump;
     [SerializeField] private AudioClip ASCherry;
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour
     
     private State state = State.idle;
 
-    Player _player;
+    SubPlayer _player;
     
     void Awake()
     {        
@@ -43,17 +42,17 @@ public class PlayerController : MonoBehaviour
         coll = GetComponent<Collider2D>();        
 
         wallSides = GameObject.FindWithTag("WallSide");
-        _player = GetComponent<Player>();
+        _player = GetComponent<SubPlayer>();
         
     }
     void Update()
     {        
-        if (state != State.hurt && isControlEnable)
-        {
+        if (state != State.hurt && isControlEnable) 
             Movement();
-        }
-        SetAnimation();        
-        anim.SetInteger("state", (int)state);     
+        
+
+        SetAnimation(); 
+        anim.SetInteger("state", (int)state);  
 
         if (transform.position.y < -10)
         {
@@ -65,47 +64,28 @@ public class PlayerController : MonoBehaviour
                 if (FindObjectOfType<GameManager>().PlayerLife() != 0)
                     ReloadScene();
             }
-            
         }
-
-
-        // lifeText.text = FindObjectOfType<GameManager>().PlayerLife().ToString();                        
-
-        //if (FindObjectOfType<GameManager>().PlayerLife() < 1)
-        //{
-        //    gameOverPanel.SetActive(true);
-        //    isControlEnable = false;
-        //    FindObjectOfType<GameManager>().GameOver();            
-        //} else
-        //{
-        //    gameOverPanel.SetActive(false);
-        //}
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlaySoundOnInteract playSound;
-        if (collision.tag == "Collectable")
-        {
-            print("xxx");
-            _player.IsItemPickUp();
-            CherryObject = collision.gameObject;                        
-            cherries += 1;
-            cherryText.text = cherries.ToString();
-
-            coroutine = WaitReturn(.4f, collision);
-            StartCoroutine(coroutine);            
-        }
+        DetectCollider(collision.gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
-    {        
+    {
+        DetectCollider(other.gameObject);
+    }
 
-        if (other.gameObject.tag == "Enemy-Spike") 
-        {            
+    private void DetectCollider(GameObject collider)
+    {
+        if (collider.gameObject.CompareTag("Enemy-Spike"))
+        {
+            Debug.Log("here");
+            _player.TakeDamage();
             state = State.hurt;
-            if (other.gameObject.transform.position.x > transform.position.x)
+            if (collider.gameObject.transform.position.x > transform.position.x)
             {
                 rb.velocity = new Vector2(-damage, rb.velocity.y);
             }
@@ -114,10 +94,15 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(damage, rb.velocity.y);
             }
 
-            FindObjectOfType<GameManager>().UpdatePlayerLife(1);            
-            StartCoroutine(HitRemove());         
+            FindObjectOfType<GameManager>().UpdatePlayerLife(1);
+            StartCoroutine(HitRemove());
         }
-    }    
+        else if (collider.gameObject.CompareTag("Collectable"))
+        {
+            _player.IsItemPickUp();
+        }
+
+    }
 
     IEnumerator WaitReturn(float value, Collider2D coll)
     {
@@ -153,15 +138,11 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(ground))
-        {            
+        {
+            _player.IsJumping();
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             state = State.jumping;
         }
-    }
-
-    private bool CollideToWall(Collision2D wall)
-    {
-        return coll.gameObject.tag == "WallSide";
     }
 
 
