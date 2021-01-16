@@ -8,9 +8,9 @@ using Assets.Scripts.Properties;
 public class PlayerController : MonoBehaviour
 {
 
-    private Rigidbody2D rb;
-    private Animator anim;
-    private Collider2D coll;
+    private Rigidbody2D _rb;
+    private Animator _anim;
+    private Collider2D _coll;
     private IEnumerator coroutine;
 
     [SerializeField] private AudioClip ASHit;
@@ -37,12 +37,12 @@ public class PlayerController : MonoBehaviour
     
     void Awake()
     {        
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        coll = GetComponent<Collider2D>();        
-
-        wallSides = GameObject.FindWithTag("WallSide");
+        _rb = GetComponent<Rigidbody2D>();
+        _anim = GetComponent<Animator>();
+        _coll = GetComponent<Collider2D>();
         _player = GetComponent<SubPlayer>();
+        wallSides = GameObject.FindWithTag("WallSide");
+        
         
     }
     void Update()
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
         
 
         SetAnimation(); 
-        anim.SetInteger("state", (int)state);  
+        _anim.SetInteger("state", (int)state);  
 
         if (transform.position.y < -10)
         {
@@ -82,16 +82,15 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Enemy-Spike"))
         {
-            Debug.Log("here");
             _player.TakeDamage();
             state = State.hurt;
             if (collider.gameObject.transform.position.x > transform.position.x)
             {
-                rb.velocity = new Vector2(-damage, rb.velocity.y);
+                _rb.velocity = new Vector2(-damage, _rb.velocity.y);
             }
             else
             {
-                rb.velocity = new Vector2(damage, rb.velocity.y);
+                _rb.velocity = new Vector2(damage, _rb.velocity.y);
             }
 
             FindObjectOfType<GameManager>().UpdatePlayerLife(1);
@@ -104,10 +103,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    IEnumerator WaitReturn(float value, Collider2D coll)
+    IEnumerator WaitReturn(float value, Collider2D _coll)
     {
         yield return new WaitForSeconds(value);
-        Destroy(coll.gameObject);
+        Destroy(_coll.gameObject);
     }
     IEnumerator HitRemove()
     {
@@ -128,19 +127,19 @@ public class PlayerController : MonoBehaviour
 
         if (moveHorizontal < 0 && !hitEnemy)
         {
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
+            _rb.velocity = new Vector2(-speed, _rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);            
         }
         else if (moveHorizontal > 0 && !hitEnemy)
         {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
+            _rb.velocity = new Vector2(speed, _rb.velocity.y);
             transform.localScale = new Vector2(1, 1);            
         }
 
-        if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(ground))
+        if (Input.GetButtonDown("Jump") && _coll.IsTouchingLayers(ground))
         {
             _player.IsJumping();
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             state = State.jumping;
         }
     }
@@ -150,23 +149,23 @@ public class PlayerController : MonoBehaviour
     {
         if (state == State.jumping) 
         {            
-            if (rb.velocity.y < 1f) 
+            if (_rb.velocity.y < 1f) 
             {                
                 state = State.falling;  
             }
         } else if (state == State.falling)
         {
-            if (coll.IsTouchingLayers(ground))
+            if (_coll.IsTouchingLayers(ground))
             {
                 state = State.idle;
             }
         }else if (state == State.hurt)  
         {            
-            if (Mathf.Abs(rb.velocity.x) < 2f)
+            if (Mathf.Abs(_rb.velocity.x) < 2f)
             {                
                 state = State.idle; 
             }
-        } else if (Mathf.Abs(rb.velocity.x) > 2f)  
+        } else if (Mathf.Abs(_rb.velocity.x) > 2f)  
         {
             state = State.running;
         } else
