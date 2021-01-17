@@ -99,6 +99,8 @@ public class PlayerController : MonoBehaviour
         else if (collider.gameObject.CompareTag("Collectable"))
         {
             _player.IsItemPickUp();
+            var item = collider.gameObject.GetComponent<ICollectible>();
+            item.Collect();
         }
 
     }

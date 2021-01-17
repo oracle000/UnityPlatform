@@ -1,12 +1,8 @@
-﻿using System.Security;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Cherry : MonoBehaviour
+public class Cherry : MonoBehaviour, ICollectible
 {
-
     private Animator _anim;
-
     [SerializeField] SubPlayer _player;
 
     void Awake()
@@ -14,7 +10,6 @@ public class Cherry : MonoBehaviour
         _anim = GetComponent<Animator>();
         StartObserving();
     }
-
 
     void StartObserving()
     {
@@ -24,13 +19,16 @@ public class Cherry : MonoBehaviour
     void StopObserving()
     {
         _player.ItemPickUp -= PlayerPickupCollectibles;
-        gameObject.SetActive(false);
     }
 
 
     void PlayerPickupCollectibles()
     {
+    }
+
+    public void Collect()
+    {
         _anim.SetTrigger("CHERRY_PICKUP");
-        StopObserving();
+        Destroy(gameObject, .3f);
     }
 }
