@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class SubPlayer : MonoBehaviour
 {
@@ -8,8 +9,29 @@ public class SubPlayer : MonoBehaviour
     public event Action ItemPickUp = delegate { };
     public event Action OutOfBounds = delegate { };
 
-    int ScoreCount = 0;
-    int Health = 3;
+    private int _health = 3;
+    private int _scoreCount = 0;
+
+    public int GetHealth
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+            _health = 3;
+        }
+    }
+
+    public int GetScore
+    {
+        get => _scoreCount;
+        set
+        {
+            _health = value;
+            _scoreCount = 0;
+        }
+    }
+
 
     public void IsJumping()
     {
@@ -18,13 +40,13 @@ public class SubPlayer : MonoBehaviour
 
     public void IsItemPickUp()
     {        
-        ScoreCount += 1;
+        _scoreCount += 1;
         ItemPickUp.Invoke();
     }
 
     public void TakeDamage()
     {
-        Health -= 1;
+        _health -= 1;
         Damage.Invoke();
     }
 
@@ -32,4 +54,7 @@ public class SubPlayer : MonoBehaviour
     {
         OutOfBounds.Invoke();
     }
+
+   
+    
 }

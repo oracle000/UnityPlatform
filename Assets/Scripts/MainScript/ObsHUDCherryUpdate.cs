@@ -1,11 +1,15 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class ObsHUDCherryUpdate : MonoBehaviour
 {
-    SubPlayer _player;
+    [SerializeField] SubPlayer _player;
+    [SerializeField] private TextMeshProUGUI _cherryText;
+    [SerializeField] private TextMeshProUGUI _lifeText;
 
-    private void Awake()
+    void Update()
     {
-        _player = GetComponent<SubPlayer>();
+        _cherryText.text = _player.GetComponent<SubPlayer>().GetScore.ToString();
+        _lifeText.text = _player.GetComponent<SubPlayer>().GetHealth.ToString();
     }
 }
