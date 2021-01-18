@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     private bool isFalling = false;
     private bool isControlEnable = true;
     
-    private State state = State.idle;
+    private PlayerState state = PlayerState.idle;
 
     SubPlayer _player;
     
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {        
-        if (state != State.hurt && isControlEnable) 
+        if (state != PlayerState.hurt && isControlEnable) 
             Movement();
         
 
@@ -58,11 +58,12 @@ public class PlayerController : MonoBehaviour
         {
             if (isFalling == false)
             {
-                FindObjectOfType<GameManager>().UpdatePlayerLife(1);
+                // FindObjectOfType<GameManager>().UpdatePlayerLife(1);
                 isFalling = true;
-
-                if (FindObjectOfType<GameManager>().PlayerLife() != 0)
-                    ReloadScene();
+                _player.IsOutOfBounds();
+                ReloadScene();
+                //if (FindObjectOfType<GameManager>().PlayerLife() != 0)
+                //    ReloadScene();
             }
         }
     }
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.CompareTag("Enemy-Spike"))
         {
             _player.TakeDamage();
-            state = State.hurt;
+            state = PlayerState.hurt;
             if (collider.gameObject.transform.position.x > transform.position.x)
             {
                 _rb.velocity = new Vector2(-damage, _rb.velocity.y);
@@ -93,8 +94,8 @@ public class PlayerController : MonoBehaviour
                 _rb.velocity = new Vector2(damage, _rb.velocity.y);
             }
 
-            FindObjectOfType<GameManager>().UpdatePlayerLife(1);
-            StartCoroutine(HitRemove());
+            // FindObjectOfType<GameManager>().UpdatePlayerLife(1);
+            // StartCoroutine(HitRemove());
         }
         else if (collider.gameObject.CompareTag("Collectable"))
         {
@@ -142,37 +143,37 @@ public class PlayerController : MonoBehaviour
         {
             _player.IsJumping();
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-            state = State.jumping;
+            state = PlayerState.jumping;
         }
     }
 
 
     private void SetAnimation()
     {
-        if (state == State.jumping) 
+        if (state == PlayerState.jumping) 
         {            
             if (_rb.velocity.y < 1f) 
             {                
-                state = State.falling;  
+                state = PlayerState.falling;  
             }
-        } else if (state == State.falling)
+        } else if (state == PlayerState.falling)
         {
             if (_coll.IsTouchingLayers(ground))
             {
-                state = State.idle;
+                state = PlayerState.idle;
             }
-        }else if (state == State.hurt)  
+        }else if (state == PlayerState.hurt)  
         {            
             if (Mathf.Abs(_rb.velocity.x) < 2f)
             {                
-                state = State.idle; 
+                state = PlayerState.idle; 
             }
         } else if (Mathf.Abs(_rb.velocity.x) > 2f)  
         {
-            state = State.running;
+            state = PlayerState.running;
         } else
         {
-            state = State.idle;  
+            state = PlayerState.idle;  
         }        
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
+using Assets.Scripts.Data;
+using Assets.Scripts.Services;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class SubPlayer : MonoBehaviour
 {
@@ -9,9 +11,19 @@ public class SubPlayer : MonoBehaviour
     public event Action ItemPickUp = delegate { };
     public event Action OutOfBounds = delegate { };
 
-    private int _health = 3;
+    private int _health;
     private int _scoreCount = 0;
 
+    private UpdateDatabaseService playerDatabase;
+
+    public void Awake()
+    { 
+        ReadPlayerData();
+    }
+    void Start()
+    {
+        _health = Convert.ToInt32(playerDatabase.GetPlayerHealth());
+    }
     public int GetHealth
     {
         get => _health;
@@ -52,9 +64,7 @@ public class SubPlayer : MonoBehaviour
 
     public void IsOutOfBounds()
     {
+        _health -= 1;
         OutOfBounds.Invoke();
     }
-
-   
-    
 }

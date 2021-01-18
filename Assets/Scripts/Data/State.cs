@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Properties
 {
-    enum State
+    enum PlayerState
     {
         idle, 
         running, 
