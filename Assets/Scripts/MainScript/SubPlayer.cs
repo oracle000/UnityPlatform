@@ -16,10 +16,6 @@ public class SubPlayer : MonoBehaviour
 
     private UpdateDatabaseService playerDatabase;
 
-    public void Awake()
-    { 
-        ReadPlayerData();
-    }
     void Start()
     {
         _health = Convert.ToInt32(playerDatabase.GetPlayerHealth());
