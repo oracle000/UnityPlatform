@@ -15,7 +15,7 @@ namespace Assets.Scripts.Services
 
         public string GetPlayerScore()
         {
-            return null;
+            return string.Empty;
         }
 
 
@@ -24,9 +24,9 @@ namespace Assets.Scripts.Services
 
         }
 
-        public void UpdatePlayerScore()
+        public void UpdatePlayerScore(int value)
         {
-
+            
         }
         
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Services
     interface IUpdateDatabaseService
     {
 
-        void UpdatePlayerScore();
+        void UpdatePlayerScore(int value);
         void UpdatePlayerHealth();
         string GetPlayerHealth();
 

@@ -13,12 +13,16 @@ public class SubPlayer : MonoBehaviour
 
     private int _health;
     private int _scoreCount = 0;
+    private UpdateDatabaseService _playerDatabase;
 
-    private UpdateDatabaseService playerDatabase;
+    void Awake()
+    {
+        _playerDatabase = new UpdateDatabaseService();
+    }
 
     void Start()
     {
-        _health = Convert.ToInt32(playerDatabase.GetPlayerHealth());
+        _health = Convert.ToInt32(_playerDatabase.GetPlayerHealth());
     }
     public int GetHealth
     {
@@ -48,7 +52,7 @@ public class SubPlayer : MonoBehaviour
 
     public void IsItemPickUp()
     {        
-        _scoreCount += 1;
+        _playerDatabase.UpdatePlayerScore(1);
         ItemPickUp.Invoke();
     }
 
