@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using Assets.Scripts.Data;
 using Assets.Scripts.Services;
 using UnityEngine;
 
@@ -13,16 +11,20 @@ public class SubPlayer : MonoBehaviour
 
     private int _health;
     private int _scoreCount = 0;
-    private UpdateDatabaseService _playerDatabase;
+
 
     void Awake()
     {
-        _playerDatabase = new UpdateDatabaseService();
+        var data = UpdateDatabaseService.LoadPlayerData();
+        _health = Convert.ToInt32(data.PlayerHealth);
+        _scoreCount = Convert.ToInt32(data.PlayerScore);
     }
 
     void Start()
     {
-        _health = Convert.ToInt32(_playerDatabase.GetPlayerHealth());
+        //_health = Convert.ToInt32(UpdateDatabaseService.GetPlayerHealth());
+        
+        _health = 0;
     }
     public int GetHealth
     {
@@ -44,21 +46,22 @@ public class SubPlayer : MonoBehaviour
         }
     }
 
-
     public void IsJumping()
     {
         Jump.Invoke();
     }
 
     public void IsItemPickUp()
-    {        
-        _playerDatabase.UpdatePlayerScore(1);
+    {
+        _scoreCount += 1;
+        UpdateDatabaseService.SavePlayerData(_scoreCount, _health, 0);
         ItemPickUp.Invoke();
     }
 
     public void TakeDamage()
     {
         _health -= 1;
+        UpdateDatabaseService.SavePlayerData(_scoreCount, _health, 0);
         Damage.Invoke();
     }
 

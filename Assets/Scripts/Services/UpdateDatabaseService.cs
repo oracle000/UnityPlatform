@@ -1,55 +1,81 @@
 ﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts.Data;
 using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    public class UpdateDatabaseService : IUpdateDatabaseService 
+    public static class UpdateDatabaseService 
     {
 
-        public string GetPlayerHealth()
+        public static string GetPlayerHealth()
         {
-            var data = ReadJSONFile();
-            return data.PlayerHealth;
+            //var data = LoadPlayerData();
+            //return data.PlayerHealth;
+            return null;
         }
 
-        public string GetPlayerScore()
+        public static string GetPlayerScore()
         {
             return string.Empty;
         }
 
 
-        public void UpdatePlayerHealth()
+        public static void UpdatePlayerHealth()
         {
 
         }
 
-        public void UpdatePlayerScore(int value)
+        //public static void UpdatePlayerScore(int value, )
+        //{
+        //    SavePlayerData();
+        //}
+
+        public static Player LoadPlayerData()
+        {
+            string path = Application.persistentDataPath + "/player.data";
+            if (File.Exists(path))
+            { 
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+
+                Player data = formatter.Deserialize(stream) as Player;
+                stream.Close();
+
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static void SavePlayerData(int score, int health, int location)
         {
             
-        }
-        
-
-        public Player ReadJSONFile()
-        {
-            var playerData = new Player();
-            using (StreamReader reader = new StreamReader("Assets/Data/pixelflow.json"))
+            var playerData = new Player
             {
-                var json = reader.ReadToEnd();
-                playerData = JsonUtility.FromJson<Player>(json);
-            }
+                PlayerHealth = health.ToString(),
+                PlayerScore = score.ToString(),
+                PlayerLocation = location.ToString()
+            };
 
-            return playerData;
+            var formatter = new BinaryFormatter();
+            var path = Application.persistentDataPath + "/player.data";
+
+            var stream = new FileStream(path, FileMode.Create);
+
+            formatter.Serialize(stream, playerData);
+            stream.Close();
+
+            //var playerData = new Player();
+            //using (StreamReader reader = new StreamReader("Assets/Data/pixelflow.json"))
+            //{
+            //    var json = reader.ReadToEnd();
+            //    playerData = JsonUtility.FromJson<Player>(json);
+            //}
+
+            // return playerData;
         }
-    }
-
-    interface IUpdateDatabaseService
-    {
-
-        void UpdatePlayerScore(int value);
-        void UpdatePlayerHealth();
-        string GetPlayerHealth();
-
-        Player ReadJSONFile();
     }
 }
