@@ -10,8 +10,6 @@ namespace Assets.Scripts.Services
 
         public static string GetPlayerHealth()
         {
-            //var data = LoadPlayerData();
-            //return data.PlayerHealth;
             return null;
         }
 
@@ -23,13 +21,7 @@ namespace Assets.Scripts.Services
 
         public static void UpdatePlayerHealth()
         {
-
         }
-
-        //public static void UpdatePlayerScore(int value, )
-        //{
-        //    SavePlayerData();
-        //}
 
         public static Player LoadPlayerData()
         {
@@ -67,15 +59,12 @@ namespace Assets.Scripts.Services
 
             formatter.Serialize(stream, playerData);
             stream.Close();
+        }
 
-            //var playerData = new Player();
-            //using (StreamReader reader = new StreamReader("Assets/Data/pixelflow.json"))
-            //{
-            //    var json = reader.ReadToEnd();
-            //    playerData = JsonUtility.FromJson<Player>(json);
-            //}
-
-            // return playerData;
+        public static void ResetSaveData()
+        {
+            var path = Application.persistentDataPath + "/player.data";
+            File.Delete(path);
         }
     }
 }

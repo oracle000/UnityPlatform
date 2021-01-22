@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts.Properties;
+using Assets.Scripts.Services;
 
 public class PlayerController : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
         _player = GetComponent<SubPlayer>();
         wallSides = GameObject.FindWithTag("WallSide");
         
-        
+        // UpdateDatabaseService.ResetSaveData();
     }
     void Update()
     {        
@@ -58,12 +59,9 @@ public class PlayerController : MonoBehaviour
         {
             if (isFalling == false)
             {
-                // FindObjectOfType<GameManager>().UpdatePlayerLife(1);
                 isFalling = true;
                 _player.IsOutOfBounds();
                 ReloadScene();
-                //if (FindObjectOfType<GameManager>().PlayerLife() != 0)
-                //    ReloadScene();
             }
         }
     }
@@ -93,9 +91,6 @@ public class PlayerController : MonoBehaviour
             {
                 _rb.velocity = new Vector2(damage, _rb.velocity.y);
             }
-
-            // FindObjectOfType<GameManager>().UpdatePlayerLife(1);
-            // StartCoroutine(HitRemove());
         }
         else if (collider.gameObject.CompareTag("Collectable"))
         {

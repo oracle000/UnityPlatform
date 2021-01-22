@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     private float bgMusic = 0;
     private float sfxMusic = 0;
     private int playerLife = 3;
+    private int playerScore = 0;
     bool gameHasEnded = false;
-    
     bool PlayBackgroundMusic;
 
     enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
@@ -27,28 +27,36 @@ public class GameManager : MonoBehaviour
     {
         bgMusic = 1f;        
     }
-    // background music
+
     public float BackgroundMusic()
     {
         return bgMusic;
     }
 
-    // sfc music
     public float SFXMusic()
     {
         return sfxMusic;
     }
 
 
-    // player life update
-    public int PlayerLife()
+    public int GetPlayerLife()
     {
         return playerLife;
+    }
+
+    public int GetPlayerScore()
+    {
+        return playerScore;
     }
 
     public void UpdatePlayerLife(int life)
     {
         playerLife = playerLife - life;
+    }
+
+    public void UpdatePlayerScore(int score)
+    {
+        playerScore = playerScore + score;
     }
        
     public void GameOver()

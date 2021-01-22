@@ -15,17 +15,10 @@ public class SubPlayer : MonoBehaviour
 
     void Awake()
     {
-        var data = UpdateDatabaseService.LoadPlayerData();
-        _health = Convert.ToInt32(data.PlayerHealth);
-        _scoreCount = Convert.ToInt32(data.PlayerScore);
+        _health = GameManager.instance.GetPlayerLife();
+        _scoreCount = GameManager.instance.GetPlayerScore();
     }
 
-    void Start()
-    {
-        //_health = Convert.ToInt32(UpdateDatabaseService.GetPlayerHealth());
-        
-        _health = 0;
-    }
     public int GetHealth
     {
         get => _health;
@@ -54,15 +47,15 @@ public class SubPlayer : MonoBehaviour
     public void IsItemPickUp()
     {
         _scoreCount += 1;
-        UpdateDatabaseService.SavePlayerData(_scoreCount, _health, 0);
         ItemPickUp.Invoke();
+        GameManager.instance.UpdatePlayerScore(1);
     }
 
     public void TakeDamage()
     {
         _health -= 1;
-        UpdateDatabaseService.SavePlayerData(_scoreCount, _health, 0);
         Damage.Invoke();
+        GameManager.instance.UpdatePlayerLife(1);
     }
 
     public void IsOutOfBounds()
