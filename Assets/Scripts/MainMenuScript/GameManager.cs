@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     private float sfxMusic = 0;
     private int playerLife = 3;
     private int playerScore = 0;
-    private bool _gameHasEnded = false;
-    bool PlayBackgroundMusic;
+    private bool _GamePauseOrStop = false;
+    private bool PlayBackgroundMusic;
 
     private enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
 
@@ -48,6 +48,22 @@ public class GameManager : MonoBehaviour
         return playerScore;
     }
 
+    public bool GetGamePauseOrStop()
+    {
+        return _GamePauseOrStop;
+    }
+
+    public void IsGamePauseOrStop()
+    {
+        _GamePauseOrStop = true;
+    }
+
+    public void IsGameResume()
+    {
+        _GamePauseOrStop = false;
+    }
+
+
     public void UpdatePlayerLife(int life)
     {
         playerLife -= life;
@@ -60,21 +76,14 @@ public class GameManager : MonoBehaviour
        
     public void GameOver()
     {
-        if (_gameHasEnded == false)
-        {     
-            _gameHasEnded = true;                        
-        }        
     }
 
-    public void PitFall()
+    public void PitFall(int life)
     {
-        playerLife = 3;
-        playerScore = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        playerLife -= life;
     }
     public void Restart()
-    {        
-        _gameHasEnded = false;
+    {
         playerLife = 3;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

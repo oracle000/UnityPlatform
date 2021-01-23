@@ -29,6 +29,6 @@ public class SubPlayer : MonoBehaviour
     public void IsOutOfBounds()
     {
         OutOfBounds.Invoke();
-        GameManager.instance.PitFall();
+        GameManager.instance.PitFall(1);
     }
 }

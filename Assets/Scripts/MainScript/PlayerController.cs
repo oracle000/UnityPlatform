@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
             {
                 isFalling = true;
                 _player.IsOutOfBounds();
+
+                // reset location
+                transform.position = new Vector3(-12, 0, 0);
+                isFalling = false;
+
             }
         }
     }
@@ -94,6 +99,9 @@ public class PlayerController : MonoBehaviour
             var item = collider.gameObject.GetComponent<ICollectible>();
             _player.IsItemPickUp();
             item.Collect();
+        } else if (collider.gameObject.CompareTag("MovetoStage2"))
+        {
+            Debug.Log("move to state2");
         }
 
     }
