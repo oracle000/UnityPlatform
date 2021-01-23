@@ -7,16 +7,16 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
 
 
-    private bool IsOnBgMusic = true;
-    private bool IsOnSFXMusic = true;
+    private bool _isOnBgMusic = true;
+    private bool _isOnSfxMusic = true;
     private float bgMusic = 0;
     private float sfxMusic = 0;
     private int playerLife = 3;
     private int playerScore = 0;
-    bool gameHasEnded = false;
+    private bool _gameHasEnded = false;
     bool PlayBackgroundMusic;
 
-    enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
+    private enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
 
     private void Awake()
     {
@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
         return sfxMusic;
     }
 
-
     public int GetPlayerLife()
     {
         return playerLife;
@@ -51,24 +50,31 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayerLife(int life)
     {
-        playerLife = playerLife - life;
+        playerLife -= life;
     }
 
     public void UpdatePlayerScore(int score)
     {
-        playerScore = playerScore + score;
+        playerScore += score;
     }
        
     public void GameOver()
     {
-        if (gameHasEnded == false)
+        if (_gameHasEnded == false)
         {     
-            gameHasEnded = true;                        
+            _gameHasEnded = true;                        
         }        
+    }
+
+    public void PitFall()
+    {
+        playerLife = 3;
+        playerScore = 0;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void Restart()
     {        
-        gameHasEnded = false;
+        _gameHasEnded = false;
         playerLife = 3;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -76,11 +82,11 @@ public class GameManager : MonoBehaviour
 
     public bool GetOnPlayBgMusic()
     {
-        return IsOnBgMusic;
+        return _isOnBgMusic;
     }
     public void UpdateBGMusic(bool value)
     {     
-        IsOnBgMusic = value;
+        _isOnBgMusic = value;
     }
 
     public void OnPlayBgMusic(AudioSource audio)

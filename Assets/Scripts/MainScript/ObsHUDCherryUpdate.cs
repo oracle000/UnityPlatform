@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -8,13 +9,7 @@ public class ObsHUDCherryUpdate : MonoBehaviour
     [SerializeField] SubPlayer _player;
     [SerializeField] private TextMeshProUGUI _cherryText;
     [SerializeField] private List<GameObject> life;
-    
 
-    void Start()
-    {
-        var playerLife = _player.GetComponent<SubPlayer>().GetHealth.ToString();
-
-    }
 
     void OnEnable()
     {
@@ -27,7 +22,12 @@ public class ObsHUDCherryUpdate : MonoBehaviour
     }
     void Update()
     {
-        _cherryText.text = _player.GetComponent<SubPlayer>().GetScore.ToString();
+        _cherryText.text = GameManager.instance.GetPlayerScore().ToString();
+        var playerLife = GameManager.instance.GetPlayerLife().ToString();
+        if (playerLife != life.Count.ToString())
+        {
+            PlayerDamage();
+        }
     }
 
     void PlayerDamage()

@@ -1,10 +1,8 @@
 ﻿
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts.Properties;
-using Assets.Scripts.Services;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,7 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject CherryObject;
     
     private GameObject wallSides;
-    private int cherries = 0;                
     private bool hitEnemy = false;
     private bool isFalling = false;
     private bool isControlEnable = true;
@@ -37,20 +34,21 @@ public class PlayerController : MonoBehaviour
     SubPlayer _player;
     
     void Awake()
-    {        
+    {
+        _player = GetComponent<SubPlayer>(); // observer pattern
+    }
+
+    void Start()
+    {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _coll = GetComponent<Collider2D>();
-        _player = GetComponent<SubPlayer>();
         wallSides = GameObject.FindWithTag("WallSide");
-        
-        // UpdateDatabaseService.ResetSaveData();
     }
     void Update()
     {        
         if (state != PlayerState.hurt && isControlEnable) 
             Movement();
-        
 
         SetAnimation(); 
         _anim.SetInteger("state", (int)state);  
@@ -61,7 +59,6 @@ public class PlayerController : MonoBehaviour
             {
                 isFalling = true;
                 _player.IsOutOfBounds();
-                ReloadScene();
             }
         }
     }
@@ -113,12 +110,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void ReloadScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-
     private void Movement()
     {
         var moveHorizontal = Input.GetAxis("Horizontal");
@@ -139,6 +130,7 @@ public class PlayerController : MonoBehaviour
             _player.IsJumping();
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             state = PlayerState.jumping;
+            
         }
     }
 
