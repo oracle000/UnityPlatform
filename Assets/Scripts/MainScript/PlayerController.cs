@@ -59,8 +59,6 @@ public class PlayerController : MonoBehaviour
             {
                 isFalling = true;
                 _player.IsOutOfBounds();
-
-                // reset location
                 transform.position = new Vector3(-12, 0, 0);
                 isFalling = false;
 

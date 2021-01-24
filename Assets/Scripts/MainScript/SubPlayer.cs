@@ -8,6 +8,8 @@ public class SubPlayer : MonoBehaviour
     public event Action Jump = delegate { };
     public event Action ItemPickUp = delegate { };
     public event Action OutOfBounds = delegate { };
+    public event Action PlayerStop = delegate { };
+    public event Action PlayerResume = delegate { };
 
     public void IsJumping()
     {
@@ -20,6 +22,17 @@ public class SubPlayer : MonoBehaviour
         GameManager.instance.UpdatePlayerScore(1);
     }
 
+    public void PlayerIsDead()
+    {
+        PlayerStop.Invoke();
+        GameManager.instance.IsGamePauseOrStop();
+    }
+
+    public void PlayerIsNotDead()
+    {
+        PlayerResume.Invoke();
+        GameManager.instance.IsGameResume();
+    }
     public void TakeDamage()
     {
         Damage.Invoke();
