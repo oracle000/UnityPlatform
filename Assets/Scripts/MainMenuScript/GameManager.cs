@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private int playerLife = 3;
     private int playerScore = 0;
     private bool _GamePauseOrStop = false;
+    private bool _enableInput = false;
     private bool PlayBackgroundMusic;
 
     private enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
@@ -25,7 +26,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        bgMusic = 1f;        
+        bgMusic = 1f;
+        _enableInput = true;
     }
 
     public float BackgroundMusic()
@@ -37,6 +39,17 @@ public class GameManager : MonoBehaviour
     {
         return sfxMusic;
     }
+    public bool GetEnableInput()
+    {
+        return _enableInput;
+    }
+
+    public void SetEnableInput(bool value)
+    {
+        _enableInput = value;
+    }
+
+
 
     public int GetPlayerLife()
     {
@@ -81,8 +94,19 @@ public class GameManager : MonoBehaviour
     {
         playerLife -= life;
     }
-    public void Restart()
+
+    public void MainMenu()
     {
+        playerScore = 0;
+        playerLife = 3;
+        _enableInput = true;
+        SceneManager.LoadScene(0);
+
+    }
+
+    public void Restart()
+    {        
+        playerScore = 0;
         playerLife = 3;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

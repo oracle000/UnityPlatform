@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {        
-        if (state != PlayerState.hurt && isControlEnable) 
+        if (state != PlayerState.hurt && GameManager.instance.GetEnableInput()) 
             Movement();
 
         SetAnimation(); 

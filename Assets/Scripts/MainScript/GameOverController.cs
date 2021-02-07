@@ -6,10 +6,11 @@ public class GameOverController : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        GameManager.instance.MainMenu();
     }
     public void Restart()
-    {
-        FindObjectOfType<GameManager>().Restart();
+    {        
+        GameManager.instance.Restart();
+        GameManager.instance.SetEnableInput(true);
     }
 }

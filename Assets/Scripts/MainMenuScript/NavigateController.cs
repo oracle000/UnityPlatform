@@ -19,18 +19,4 @@ public class NavigateController : GameManager
     {
         Application.Quit();
     }    
-
-    //public void OffBackgroundMusic(bool value)
-    //{
-
-    //    Debug.Log("here");
-    //    if (value)
-    //    {
-    //        OnStopBgMusic(adSource);
-            
-    //    } else
-    //    {
-            
-    //    }                
-    //} 
 }

@@ -9,17 +9,16 @@ public class ObsHUDCherryUpdate : MonoBehaviour
     [SerializeField] SubPlayer _player;
     [SerializeField] private TextMeshProUGUI _cherryText;
     [SerializeField] private List<GameObject> life;
-
-    [SerializeField] private GameObject GameOverPanel;    
-
+    [SerializeField] private GameObject GameOverPanel;
+    
     void OnEnable()
     {
-        _player.Damage += PlayerDamage;
+        _player.Damage += PlayerDamage;        
     }
 
     void OnDisable()
     { 
-        _player.Damage -= PlayerDamage;
+        _player.Damage -= PlayerDamage;        
     }
     void Update()
     {
@@ -32,15 +31,17 @@ public class ObsHUDCherryUpdate : MonoBehaviour
         
         if (Convert.ToInt32(playerLife) == 0)
         {
+            GameManager.instance.SetEnableInput(false);
             GameOverPanel.gameObject.SetActive(true);
         }
-
-
     }
 
     void PlayerDamage()
     {
-        Destroy(life[life.Count - 1].gameObject);
-        life.RemoveAt(life.Count - 1);
+        if (life.Count > 0)
+        {
+            Destroy(life[life.Count - 1].gameObject);
+            life.RemoveAt(life.Count - 1);
+        }        
     }
 }
