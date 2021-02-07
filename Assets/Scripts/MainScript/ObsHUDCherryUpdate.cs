@@ -10,6 +10,7 @@ public class ObsHUDCherryUpdate : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _cherryText;
     [SerializeField] private List<GameObject> life;
 
+    [SerializeField] private GameObject GameOverPanel;    
 
     void OnEnable()
     {
@@ -28,6 +29,13 @@ public class ObsHUDCherryUpdate : MonoBehaviour
         {
             PlayerDamage();
         }
+        
+        if (Convert.ToInt32(playerLife) == 0)
+        {
+            GameOverPanel.gameObject.SetActive(true);
+        }
+
+
     }
 
     void PlayerDamage()

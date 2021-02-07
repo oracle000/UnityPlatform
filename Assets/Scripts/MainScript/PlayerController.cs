@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     
     void Awake()
     {
-        _player = GetComponent<SubPlayer>(); // observer pattern
+        _player = GetComponent<SubPlayer>();
     }
 
     void Start()
@@ -83,20 +83,22 @@ public class PlayerController : MonoBehaviour
         {
             _player.TakeDamage();
             state = PlayerState.hurt;
+
             if (collider.gameObject.transform.position.x > transform.position.x)
             {
                 _rb.velocity = new Vector2(-damage, _rb.velocity.y);
-            }
+            }                
             else
             {
                 _rb.velocity = new Vector2(damage, _rb.velocity.y);
-            }
+            }                
         }
         else if (collider.gameObject.CompareTag("Collectable"))
         {
             var item = collider.gameObject.GetComponent<ICollectible>();
             _player.IsItemPickUp();
             item.Collect();
+
         } else if (collider.gameObject.CompareTag("MovetoStage2"))
         {
             Debug.Log("move to state2");

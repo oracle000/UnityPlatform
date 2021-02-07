@@ -11,6 +11,7 @@ TagManager:
   - Enemy-Spike
   - Background-Music
   - GameOverPanel
+  - MovetoStage2
   layers:
   - Default
   - TransparentFX
@@ -65,4 +66,7 @@ TagManager:
     locked: 0
   - name: CanvasImage
     uniqueID: 2446826419
+    locked: 0
+  - name: Enemies
+    uniqueID: 4264436479
     locked: 0

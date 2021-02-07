@@ -63,10 +63,9 @@ public class GameManager : MonoBehaviour
         _GamePauseOrStop = false;
     }
 
-
     public void UpdatePlayerLife(int life)
     {
-        playerLife -= life;
+        playerLife -= life;        
     }
 
     public void UpdatePlayerScore(int score)
