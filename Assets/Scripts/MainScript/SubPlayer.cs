@@ -10,10 +10,15 @@ public class SubPlayer : MonoBehaviour
     public event Action OutOfBounds = delegate { };
     public event Action PlayerStop = delegate { };
     public event Action PlayerResume = delegate { };
+    public event Action MoveLeft = delegate { };
+    public event Action MoveRight = delegate { };
+    public event Action MoveJump = delegate { };
+    public event Action MoveStop = delegate { };
+
 
     public void IsJumping()
     {
-        Jump.Invoke();
+        MoveJump.Invoke();
     }
 
     public void IsItemPickUp()
@@ -44,4 +49,23 @@ public class SubPlayer : MonoBehaviour
         OutOfBounds.Invoke();
         GameManager.instance.PitFall(1);
     }
+
+    public void IsMoveLeft()
+    {
+        GameManager.instance.UpdateLeftKeyPressed(true);
+        GameManager.instance.UpdateRightKeyPressed(false);
+        MoveLeft.Invoke();
+    }
+
+    public void IsMoveLeftStop()
+    {
+        GameManager.instance.UpdateLeftKeyPressed(false);
+    }
+
+    public void IsMoveRight()
+    {
+        GameManager.instance.UpdateRightKeyPressed(true);
+        GameManager.instance.UpdateLeftKeyPressed(false);        
+        MoveRight.Invoke();
+    }  
 }

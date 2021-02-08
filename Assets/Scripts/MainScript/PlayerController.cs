@@ -32,11 +32,26 @@ public class PlayerController : MonoBehaviour
     private PlayerState state = PlayerState.idle;
 
     SubPlayer _player;
-    
+
+    //private void OnEnable()
+    //{
+    //    _player.MoveLeft += PlayerMoveLeft;
+    //    _player.MoveRight += PlayerMoveRight;
+    //    _player.MoveJump += PlayerJumping;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    _player.MoveLeft -= PlayerMoveLeft;
+    //    _player.MoveRight -= PlayerMoveRight;
+    //    _player.MoveJump -= PlayerJumping;
+    //}
+
     void Awake()
     {
         _player = GetComponent<SubPlayer>();
     }
+
 
     void Start()
     {
@@ -47,6 +62,19 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {        
+
+        if (GameManager.instance.GetLeftKeyPressed())
+        {
+            _rb.velocity = new Vector2(-speed, _rb.velocity.y);
+            transform.localScale = new Vector2(-1, 1);
+        }
+        
+        if (GameManager.instance.GetRightKeyPressed())
+        {
+            _rb.velocity = new Vector2(speed, _rb.velocity.y);
+            transform.localScale = new Vector2(1, 1);
+        }
+
         if (state != PlayerState.hurt && GameManager.instance.GetEnableInput()) 
             Movement();
 
@@ -103,7 +131,6 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("move to state2");
         }
-
     }
 
     IEnumerator WaitReturn(float value, Collider2D _coll)
@@ -118,7 +145,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void Movement()
+
+    public void Movement()
     {
         var moveHorizontal = Input.GetAxis("Horizontal");
 
@@ -142,6 +170,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void PlayerMoveLeft()
+    {
+        _rb.velocity = new Vector2(-speed, _rb.velocity.y);
+        transform.localScale = new Vector2(-1, 1);        
+        // _rb.AddForce(new Vector2(-speed, _rb.velocity.y));
+        
+    }
+
+    void PlayerMoveRight()
+    {
+        _rb.velocity = new Vector2(speed, _rb.velocity.y);
+        transform.localScale = new Vector2(1, 1);
+    }
+    void PlayerJumping()
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+        state = PlayerState.jumping;
+    }
 
     private void SetAnimation()
     {
