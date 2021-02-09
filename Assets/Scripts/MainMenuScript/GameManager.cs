@@ -16,10 +16,11 @@ public class GameManager : MonoBehaviour
     private bool _GamePauseOrStop = false;
     private bool _enableInput = false;
     private bool PlayBackgroundMusic;
+
+
     private bool _isLeftKeyPressed = false;
     private bool _isRightKeyPressed = false;
-
-
+    private bool _isJumpKeyPressed = false;
 
     private enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
 
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdateLeftKeyPressed(bool value)
-    {
+    {        
         _isLeftKeyPressed = value;
     }
 
@@ -72,6 +73,16 @@ public class GameManager : MonoBehaviour
     {
         _isRightKeyPressed = value;
     }
+
+    public bool GetJumpKeyPressed()
+    {
+        return _isJumpKeyPressed;
+    }
+    public void UpdateJumpKeyPressed(bool value)
+    {
+        _isJumpKeyPressed = value;
+    }
+
 
     public void PlayerStop()
     {

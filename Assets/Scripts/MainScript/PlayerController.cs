@@ -63,23 +63,35 @@ public class PlayerController : MonoBehaviour
     void Update()
     {        
 
-        if (GameManager.instance.GetLeftKeyPressed())
-        {
+        if (GameManager.instance.GetLeftKeyPressed())       
+        {            
             _rb.velocity = new Vector2(-speed, _rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
         }
         
         if (GameManager.instance.GetRightKeyPressed())
-        {
+        {           
             _rb.velocity = new Vector2(speed, _rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
         }
 
-        if (state != PlayerState.hurt && GameManager.instance.GetEnableInput()) 
+        if (GameManager.instance.GetJumpKeyPressed())
+        {
+            if (_coll.IsTouchingLayers(ground))
+            {
+                _player.IsJumping();
+                _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+                state = PlayerState.jumping;
+
+                GameManager.instance.UpdateJumpKeyPressed(false);
+            }
+        }
+
+        if (state != PlayerState.hurt && GameManager.instance.GetEnableInput())
             Movement();
 
-        SetAnimation(); 
-        _anim.SetInteger("state", (int)state);  
+        SetAnimation();
+        _anim.SetInteger("state", (int)state);
 
         if (transform.position.y < -10)
         {

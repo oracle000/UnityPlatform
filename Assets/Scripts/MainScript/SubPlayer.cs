@@ -65,7 +65,11 @@ public class SubPlayer : MonoBehaviour
     public void IsMoveRight()
     {
         GameManager.instance.UpdateRightKeyPressed(true);
-        GameManager.instance.UpdateLeftKeyPressed(false);        
+        GameManager.instance.UpdateLeftKeyPressed(false);
         MoveRight.Invoke();
     }  
+    public void IsMoveRightStop()
+    {
+        GameManager.instance.UpdateRightKeyPressed(false);
+    }
 }
