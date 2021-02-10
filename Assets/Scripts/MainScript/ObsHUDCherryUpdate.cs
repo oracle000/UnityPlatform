@@ -36,6 +36,11 @@ public class ObsHUDCherryUpdate : MonoBehaviour
         }        
     }
 
+    public void ClickMenu()
+    {
+        GameOverPanel.gameObject.SetActive(true);
+    }
+
     void PlayerDamage()
     {
         if (life.Count > 0)

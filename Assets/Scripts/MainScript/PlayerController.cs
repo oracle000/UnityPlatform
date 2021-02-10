@@ -107,6 +107,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Enemy-Spike"))
         {
+            GameManager.instance.UpdateLeftKeyPressed(false);
+            GameManager.instance.UpdateRightKeyPressed(false);
+
             _player.TakeDamage();
             state = PlayerState.hurt;
 

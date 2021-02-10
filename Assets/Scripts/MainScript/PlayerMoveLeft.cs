@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class PlayerMoveLeft : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public void OnPointerDown(PointerEventData eventData)
-    {
+    {        
         GameManager.instance.UpdateLeftKeyPressed(true);
     }
 
