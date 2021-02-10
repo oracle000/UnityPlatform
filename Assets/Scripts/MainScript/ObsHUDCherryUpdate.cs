@@ -32,8 +32,8 @@ public class ObsHUDCherryUpdate : MonoBehaviour
         if (Convert.ToInt32(playerLife) == 0)
         {
             GameManager.instance.SetEnableInput(false);
-            GameOverPanel.gameObject.SetActive(true);
-        }
+            GameOverPanel.gameObject.SetActive(true);            
+        }        
     }
 
     void PlayerDamage()

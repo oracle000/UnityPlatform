@@ -31,22 +31,7 @@ public class PlayerController : MonoBehaviour
     
     private PlayerState state = PlayerState.idle;
 
-    SubPlayer _player;
-
-    //private void OnEnable()
-    //{
-    //    _player.MoveLeft += PlayerMoveLeft;
-    //    _player.MoveRight += PlayerMoveRight;
-    //    _player.MoveJump += PlayerJumping;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    _player.MoveLeft -= PlayerMoveLeft;
-    //    _player.MoveRight -= PlayerMoveRight;
-    //    _player.MoveJump -= PlayerJumping;
-    //}
-
+    SubPlayer _player;  
     void Awake()
     {
         _player = GetComponent<SubPlayer>();
@@ -89,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
         if (state != PlayerState.hurt && GameManager.instance.GetEnableInput())
             Movement();
+                
 
         SetAnimation();
         _anim.SetInteger("state", (int)state);
@@ -180,25 +166,6 @@ public class PlayerController : MonoBehaviour
             state = PlayerState.jumping;
             
         }
-    }
-
-    void PlayerMoveLeft()
-    {
-        _rb.velocity = new Vector2(-speed, _rb.velocity.y);
-        transform.localScale = new Vector2(-1, 1);        
-        // _rb.AddForce(new Vector2(-speed, _rb.velocity.y));
-        
-    }
-
-    void PlayerMoveRight()
-    {
-        _rb.velocity = new Vector2(speed, _rb.velocity.y);
-        transform.localScale = new Vector2(1, 1);
-    }
-    void PlayerJumping()
-    {
-        _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-        state = PlayerState.jumping;
     }
 
     private void SetAnimation()
