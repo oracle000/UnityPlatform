@@ -71,5 +71,5 @@ public class SubPlayer : MonoBehaviour
     public void IsMoveRightStop()
     {
         GameManager.instance.UpdateRightKeyPressed(false);
-    }
+    } 
 }

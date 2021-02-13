@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
         _player = GetComponent<SubPlayer>();
     }
 
-
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -87,7 +86,6 @@ public class PlayerController : MonoBehaviour
                 _player.IsOutOfBounds();
                 transform.position = new Vector3(-12, 0, 0);
                 isFalling = false;
-
             }
         }
     }
@@ -121,6 +119,13 @@ public class PlayerController : MonoBehaviour
             {
                 _rb.velocity = new Vector2(damage, _rb.velocity.y);
             }                
+        } else if (collider.gameObject.CompareTag("Enemy"))
+        {
+            _player.TakeDamage();
+            transform.position = new Vector3(-12, 0, 0);
+        } else if (collider.gameObject.CompareTag("End"))
+        {
+            GameManager.instance.MainMenu();
         }
         else if (collider.gameObject.CompareTag("Collectable"))
         {
@@ -166,8 +171,7 @@ public class PlayerController : MonoBehaviour
         {
             _player.IsJumping();
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-            state = PlayerState.jumping;
-            
+            state = PlayerState.jumping;            
         }
     }
 

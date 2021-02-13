@@ -13,6 +13,7 @@ TagManager:
   - GameOverPanel
   - MovetoStage2
   - MobileControl
+  - End
   layers:
   - Default
   - TransparentFX
