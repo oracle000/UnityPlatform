@@ -12,6 +12,7 @@ TagManager:
   - Background-Music
   - GameOverPanel
   - MovetoStage2
+  - MobileControl
   layers:
   - Default
   - TransparentFX

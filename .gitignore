@@ -9,8 +9,8 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/APK
 /Packages
+/APK
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta

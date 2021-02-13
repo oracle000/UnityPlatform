@@ -163,9 +163,9 @@ PlayerSettings:
   useHDRDisplay: 0
   D3DHDRBitDepth: 0
   m_ColorGamuts: 00000000
-  targetPixelDensity: 30
-  resolutionScalingMode: 0
-  androidSupportedAspectRatio: 1
+  targetPixelDensity: 150
+  resolutionScalingMode: 1
+  androidSupportedAspectRatio: 2
   androidMaxAspectRatio: 2.1
   applicationIdentifier: {}
   buildNumber: {}
@@ -638,7 +638,8 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Android: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
