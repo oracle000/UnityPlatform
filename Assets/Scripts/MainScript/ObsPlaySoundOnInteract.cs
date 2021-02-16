@@ -16,30 +16,30 @@ public class ObsPlaySoundOnInteract : MonoBehaviour
     private void OnEnable()
     {        
         _player.Damage += OnDamange;
-        _player.Jump += OnJump;
+        _player.MoveJump += OnJump;
         _player.ItemPickUp += OnItemPickUp;
     }
 
     private void OnDisable()
     {
         _player.Damage -= OnDamange;
-        _player.Jump -= OnJump;
+        _player.MoveJump -= OnJump;
         _player.ItemPickUp -= OnItemPickUp;
     }
 
     void OnDamange()
-    {
-        AudioSource.PlayClipAtPoint(_hitSound, transform.position);        
+    {        
+        AudioSource.PlayClipAtPoint(_hitSound, transform.position, 1f);        
     }
 
     void OnJump()
     {        
-        AudioSource.PlayClipAtPoint(_jumpSound, transform.position);
+        AudioSource.PlayClipAtPoint(_jumpSound, transform.position, 1f);
     }
 
     void OnItemPickUp()
     {        
-        AudioSource.PlayClipAtPoint(_itemSound, transform.position);
+        AudioSource.PlayClipAtPoint(_itemSound, transform.position, 1f);
     }
 
 }

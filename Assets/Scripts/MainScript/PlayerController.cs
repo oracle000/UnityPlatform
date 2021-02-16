@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
         _anim = GetComponent<Animator>();
         _coll = GetComponent<Collider2D>();
         wallSides = GameObject.FindWithTag("WallSide");
+        
     }
     void Update()
     {        
@@ -81,10 +82,10 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < -10)
         {
             if (isFalling == false)
-            {
+            {                
                 isFalling = true;
                 _player.IsOutOfBounds();
-                transform.position = new Vector3(-12, 0, 0);
+                transform.position = new Vector3(-8, -1, 15);
                 isFalling = false;
             }
         }
