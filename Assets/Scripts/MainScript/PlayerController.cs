@@ -93,8 +93,7 @@ public class PlayerController : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {l
-        // Debug.Log("trigger");
+    {        
         DetectCollider(collision.gameObject);
     }
 
