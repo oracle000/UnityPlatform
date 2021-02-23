@@ -106,7 +106,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   speed: 8
-  jumpForce: 25
+  jumpForce: 10
   cherryText: {fileID: 0}
   lifeText: {fileID: 0}
   damage: 10

@@ -15,18 +15,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip ASHit;
     [SerializeField] private AudioClip ASJump;
     [SerializeField] private AudioClip ASCherry;
-    [SerializeField] private LayerMask ground;
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 25f;
+    [SerializeField] private LayerMask ground;        
     [SerializeField] private TextMeshProUGUI cherryText;
-    [SerializeField] private TextMeshProUGUI lifeText;
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private TextMeshProUGUI lifeText;    
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject CherryObject;
     
     private GameObject wallSides;
+    private float damage = 15f;
+    private float jumpForce = 16f;
     private bool hitEnemy = false;
     private bool isFalling = false;
+    private float speed = 8f;
     private bool isControlEnable = true;
     
     private PlayerState state = PlayerState.idle;
@@ -49,14 +49,14 @@ public class PlayerController : MonoBehaviour
     {        
 
         if (GameManager.instance.GetLeftKeyPressed())       
-        {            
-            _rb.velocity = new Vector2(-speed, _rb.velocity.y);
+        {
+             _rb.velocity = new Vector2(-speed, _rb.velocity.y);                        
             transform.localScale = new Vector2(-1, 1);
-        }
+        } 
         
         if (GameManager.instance.GetRightKeyPressed())
-        {           
-            _rb.velocity = new Vector2(speed, _rb.velocity.y);
+        {
+            _rb.velocity = new Vector2(speed, _rb.velocity.y);            
             transform.localScale = new Vector2(1, 1);
         }
 
@@ -93,7 +93,8 @@ public class PlayerController : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
+    {l
+        // Debug.Log("trigger");
         DetectCollider(collision.gameObject);
     }
 
@@ -115,15 +116,29 @@ public class PlayerController : MonoBehaviour
             if (collider.gameObject.transform.position.x > transform.position.x)
             {
                 _rb.velocity = new Vector2(-damage, _rb.velocity.y);
-            }                
+            }
             else
             {
                 _rb.velocity = new Vector2(damage, _rb.velocity.y);
-            }                
-        } else if (collider.gameObject.CompareTag("Enemy"))
-        {
-            _player.TakeDamage();
-            transform.position = new Vector3(-12, 0, 0);
+            }
+        }
+        else if (collider.gameObject.CompareTag("Enemy"))
+        {            
+            if (state != PlayerState.falling)
+            {
+                _player.TakeDamage();
+                state = PlayerState.hurt;
+                _rb.velocity = new Vector2(-damage, _rb.velocity.y);                
+            } else
+            {
+                GameManager.instance.UpdateLeftKeyPressed(false);
+                GameManager.instance.UpdateRightKeyPressed(false);
+
+                var enemyCollide = collider.gameObject.GetComponent<IEnemyDestory>();
+                enemyCollide.Destory();
+            }
+
+            
         } else if (collider.gameObject.CompareTag("End"))
         {
             GameManager.instance.MainMenu();
@@ -167,8 +182,12 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(speed, _rb.velocity.y);
             transform.localScale = new Vector2(1, 1);            
         }
+        //else
+        //{
+        //    _rb.velocity = new Vector2(0, _rb.velocity.y);
+        //}
 
-        if (Input.GetButtonDown("Jump") && _coll.IsTouchingLayers(ground))
+        if (Input.GetButtonDown("Jump") && _coll.IsTouchingLayers(ground) && state != PlayerState.jumping)
         {
             _player.IsJumping();
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
@@ -192,11 +211,11 @@ public class PlayerController : MonoBehaviour
             }
         }else if (state == PlayerState.hurt)  
         {            
-            if (Mathf.Abs(_rb.velocity.x) < 2f)
+            if (Mathf.Abs(_rb.velocity.x) < 1f)
             {                
                 state = PlayerState.idle; 
             }
-        } else if (Mathf.Abs(_rb.velocity.x) > 2f)  
+        } else if (Mathf.Abs(_rb.velocity.x) > 1f)  
         {
             state = PlayerState.running;
         } else

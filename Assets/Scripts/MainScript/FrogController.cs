@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FrogController : MonoBehaviour
+public class FrogController : MonoBehaviour, IEnemyDestory
 {
 
     private Rigidbody2D _rb;    
     private Collider2D _coll;
     private Animator _anim;
     private bool _moveLeft = true;
+    private bool _isHit = false;
     private Vector3 _frogLocation;
 
     private frogState state = frogState.idle;
-    private enum frogState {idle, move, falling};
+    private enum frogState {idle, move, falling, destroy};
 
 
     [SerializeField] SubPlayer _subPlayer;
@@ -25,51 +26,76 @@ public class FrogController : MonoBehaviour
         _coll = GetComponent<Collider2D>();
         _anim = GetComponent<Animator>();
 
-        StartCoroutine(WaitFor(Random.Range(2, 5)));
+        StartCoroutine(WaitFor(Random.Range(3, 5)));
 
         _frogLocation = transform.position;
+        
     }         
 
     void Update()
-    {
-        state = _coll.IsTouchingLayers(ground) ? state = frogState.idle : state = frogState.move;        
-        _anim.SetInteger("state", (int)state);
+    {                
+        if (_coll.IsTouchingLayers(ground) && _isHit == false)
+        {
+            state = frogState.idle;
+        } else if (_isHit)
+        {
+            state = frogState.destroy;
+            Destroy(gameObject, .5f);
+        } else
+        {
+            state = frogState.move;
+        }
+
+        _anim.SetInteger("state", (int)state);        
     }    
 
-    void OnCollisionEnter2D(Collision2D other)
-    {        
+    
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
         if (other.gameObject.CompareTag("Player"))
-        {            
-            transform.position = new Vector3(_frogLocation.x, _frogLocation.y, _frogLocation.z);
+        {
             _moveLeft = true;
         }
     }
 
-
-
+    void OnCollisionEnter2D(Collision2D other)
+    {        
+       
+    }
 
     IEnumerator WaitFor(float value)
     {
         while(true)
         {
-            yield return new WaitForSeconds(value);          
+            yield return new WaitForSeconds(value);
 
+            
             if (_coll.IsTouchingLayers(ground))
             {                
                 if (_moveLeft)
-                {                                    
+                {
+                    state = frogState.move;
                     transform.localScale = new Vector3(1, 1, 1);
                     _rb.velocity = new Vector2(-4, 5);                 
-                    _moveLeft = false;
+                    _moveLeft = false;                    
                 }
-                else
+                else 
                 {
+                    state = frogState.move;
                     transform.localScale = new Vector3(-1, 1, 1);
                     _rb.velocity = new Vector2(4, 5);
-                    _moveLeft = true;
-                }
-            }           
-        }
-                         
+                    _moveLeft = true;                    
+                } 
+            }            
+        }                         
+    }
+
+    public void Destory()
+    {
+        _isHit = true;
+        Debug.Log("here");
+        //state = frogState.destroy;
+        //Destroy(gameObject, .3f);
     }
 }
