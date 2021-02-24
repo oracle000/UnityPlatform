@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject CherryObject;
     
+    
     private GameObject wallSides;
     private float damage = 15f;
     private float jumpForce = 16f;
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {        
+
 
         if (GameManager.instance.GetLeftKeyPressed())       
         {
@@ -121,23 +123,25 @@ public class PlayerController : MonoBehaviour
                 _rb.velocity = new Vector2(damage, _rb.velocity.y);
             }
         }
-        else if (collider.gameObject.CompareTag("Enemy"))
-        {            
+        else if (collider.gameObject.CompareTag("EnemyContainer"))
+        {
             if (state != PlayerState.falling)
             {
                 _player.TakeDamage();
                 state = PlayerState.hurt;
-                _rb.velocity = new Vector2(-damage, _rb.velocity.y);                
-            } else
-            {
-                GameManager.instance.UpdateLeftKeyPressed(false);
-                GameManager.instance.UpdateRightKeyPressed(false);
+                _rb.velocity = new Vector2(-damage, _rb.velocity.y);
+            } 
+        } else if (collider.gameObject.CompareTag("Enemy"))
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, 8f);
 
-                var enemyCollide = collider.gameObject.GetComponent<IEnemyDestory>();
-                enemyCollide.Destory();
-            }
+            GameManager.instance.UpdateLeftKeyPressed(false);
+            GameManager.instance.UpdateRightKeyPressed(false);
 
-            
+            var enemyCollide = collider.gameObject.GetComponent<IEnemyDestory>();
+            enemyCollide.Destory();
+
+
         } else if (collider.gameObject.CompareTag("End"))
         {
             GameManager.instance.MainMenu();

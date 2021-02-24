@@ -40,12 +40,11 @@ public class FrogController : MonoBehaviour, IEnemyDestory
         } else if (_isHit)
         {
             state = frogState.destroy;
-            Destroy(gameObject, .5f);
+            Destroy(gameObject, .2f);
         } else
         {
             state = frogState.move;
-        }
-
+        }        
         _anim.SetInteger("state", (int)state);        
     }    
 
@@ -55,13 +54,8 @@ public class FrogController : MonoBehaviour, IEnemyDestory
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _moveLeft = true;
+            
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {        
-       
     }
 
     IEnumerator WaitFor(float value)
@@ -76,16 +70,19 @@ public class FrogController : MonoBehaviour, IEnemyDestory
                 if (_moveLeft)
                 {
                     state = frogState.move;
+
                     transform.localScale = new Vector3(1, 1, 1);
-                    _rb.velocity = new Vector2(-4, 5);                 
-                    _moveLeft = false;                    
+                    _rb.velocity = new Vector2(-4, 5);
+                    _moveLeft = false;
                 }
                 else 
                 {
                     state = frogState.move;
+                    transform.Translate(Vector2.right * (Time.deltaTime * 5));
+
                     transform.localScale = new Vector3(-1, 1, 1);
                     _rb.velocity = new Vector2(4, 5);
-                    _moveLeft = true;                    
+                    _moveLeft = true;
                 } 
             }            
         }                         
@@ -94,8 +91,6 @@ public class FrogController : MonoBehaviour, IEnemyDestory
     public void Destory()
     {
         _isHit = true;
-        Debug.Log("here");
-        //state = frogState.destroy;
-        //Destroy(gameObject, .3f);
+        Debug.Log("here");        
     }
 }
