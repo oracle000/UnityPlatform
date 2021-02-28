@@ -99,19 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2eb18e4ebe10d44b7a44b19e572d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ASHit: {fileID: 8300000, guid: f9e6062782577e54aa55447e36332745, type: 3}
-  ASJump: {fileID: 8300000, guid: 269f429853d40bf48b4d48f37f6900fd, type: 3}
-  ASCherry: {fileID: 8300000, guid: 3df2170eb535ca74d84ac32b7ecbdf59, type: 3}
   ground:
     serializedVersion: 2
     m_Bits: 2048
-  speed: 8
-  jumpForce: 10
-  cherryText: {fileID: 0}
-  lifeText: {fileID: 0}
-  damage: 10
-  gameOverPanel: {fileID: 0}
-  CherryObject: {fileID: 0}
 --- !u!50 &4623301720294258976
 Rigidbody2D:
   serializedVersion: 4
@@ -129,7 +119,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 10
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4

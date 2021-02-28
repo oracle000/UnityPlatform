@@ -6,29 +6,17 @@ using Assets.Scripts.Properties;
 
 public class PlayerController : MonoBehaviour
 {
+    
+    [SerializeField] private LayerMask ground;
 
     private Rigidbody2D _rb;
     private Animator _anim;
     private Collider2D _coll;
-    private IEnumerator coroutine;
-
-    [SerializeField] private AudioClip ASHit;
-    [SerializeField] private AudioClip ASJump;
-    [SerializeField] private AudioClip ASCherry;
-    [SerializeField] private LayerMask ground;        
-    [SerializeField] private TextMeshProUGUI cherryText;
-    [SerializeField] private TextMeshProUGUI lifeText;    
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private GameObject CherryObject;
-    
-    
-    private GameObject wallSides;
     private float damage = 15f;
     private float jumpForce = 16f;
     private bool hitEnemy = false;
     private bool isFalling = false;
-    private float speed = 8f;
-    private bool isControlEnable = true;
+    private float speed = 8f;    
     
     private PlayerState state = PlayerState.idle;
 
@@ -42,8 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        _coll = GetComponent<Collider2D>();
-        wallSides = GameObject.FindWithTag("WallSide");
+        _coll = GetComponent<Collider2D>();        
         
     }
     void Update()
@@ -154,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
         } else if (collider.gameObject.CompareTag("MovetoStage2"))
         {
-            Debug.Log("move to state2");
+            GameManager.instance.DisplayLevel2();
         }
     }
 
@@ -184,14 +171,11 @@ public class PlayerController : MonoBehaviour
         {
             _rb.velocity = new Vector2(speed, _rb.velocity.y);
             transform.localScale = new Vector2(1, 1);            
-        }
-        //else
-        //{
-        //    _rb.velocity = new Vector2(0, _rb.velocity.y);
-        //}
+        }       
 
-        if (Input.GetButtonDown("Jump") && _coll.IsTouchingLayers(ground) && state != PlayerState.jumping)
+        if (Input.GetButtonDown("Jump") && _coll.IsTouchingLayers(ground) && state != PlayerState.falling && state != PlayerState.jumping)
         {
+            Debug.Log("jump");
             _player.IsJumping();
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             state = PlayerState.jumping;            

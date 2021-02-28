@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -141,7 +142,6 @@ public class GameManager : MonoBehaviour
         playerLife = 3;
         _enableInput = true;
         SceneManager.LoadScene(0);
-
     }
 
     public void Restart()
@@ -150,7 +150,19 @@ public class GameManager : MonoBehaviour
         playerLife = 3;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
+
+    public void DisplayLevel1()
+    {
+        SceneManager.LoadScene(1);
+        StartCoroutine(WaitReturnLevel(2, "level1"));
+    }
+
+    public void DisplayLevel2()
+    {
+        Debug.Log("ere");
+        SceneManager.LoadScene(1);
+        StartCoroutine(WaitReturnLevel(2, "level2"));
+    }
 
     public bool GetOnPlayBgMusic()
     {
@@ -182,5 +194,12 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-    }  
+    }
+
+    IEnumerator WaitReturnLevel(float value, string type)
+    {
+        yield return new WaitForSeconds(value);
+
+        SceneManager.LoadScene(type == "level1" ? 2 : 3);
+    }
 }

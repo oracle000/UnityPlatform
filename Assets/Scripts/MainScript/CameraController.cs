@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
@@ -6,10 +7,33 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Transform player;
 
+    private string _levelName;
+
+
+    void Start()
+    {
+        Debug.Log("testing");
+        _levelName = SceneManager.GetActiveScene().name;
+    }
+
     void Update()
-    {        
-        transform.position = new Vector3(
-            player.position.x < -8f ? -8f : player.position.x,
-            0, -8);
+    {
+
+
+        if (_levelName == "Main")
+        {
+            transform.position = new Vector3(
+                player.position.x < -8f ? -8f : player.position.x,
+                0, -8);
+
+
+            if (player.position.x > 145)
+            {
+                transform.position = new Vector3(145, transform.position.y, transform.position.z);
+            }
+        } else if (_levelName == "Level2")
+        {
+            transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
+        }
     }
 }

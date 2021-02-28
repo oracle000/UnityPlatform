@@ -12,7 +12,9 @@ public class NavigateController : GameManager
 
     public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);              
+
+        GameManager.instance.DisplayLevel1();
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);              
     }
 
     public void QuitGame()

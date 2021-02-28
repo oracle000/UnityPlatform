@@ -11,7 +11,7 @@ public class LoadingController : MonoBehaviour
         anim = GetComponent<Animator>();
         anim.SetInteger("state", 0);
 
-        StartCoroutine(SetTimeout(1.5f));        
+        // StartCoroutine(SetTimeout(1.5f));        
     }
 
 
