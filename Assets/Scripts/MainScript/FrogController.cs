@@ -91,6 +91,5 @@ public class FrogController : MonoBehaviour, IEnemyDestory
     public void Destory()
     {
         _isHit = true;
-        Debug.Log("here");        
     }
 }

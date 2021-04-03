@@ -6,6 +6,7 @@
         running, 
         jumping, 
         falling, 
-        hurt
+        hurt,
+        climbing
     }
 }

@@ -12,7 +12,6 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("testing");
         _levelName = SceneManager.GetActiveScene().name;
     }
 

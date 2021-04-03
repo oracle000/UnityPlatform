@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private bool _isLeftKeyPressed = false;
     private bool _isRightKeyPressed = false;
-    private bool _isJumpKeyPressed = false;
+    private bool _isJumpKeyPressed = false;    
 
     private enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
 
@@ -55,26 +55,29 @@ public class GameManager : MonoBehaviour
         _enableInput = value;
     }
 
+    #region left keypressed
     public bool GetLeftKeyPressed()
     {
         return _isLeftKeyPressed;
     }
-
     public void UpdateLeftKeyPressed(bool value)
     {        
         _isLeftKeyPressed = value;
     }
+    #endregion
 
+    #region right keypressed
     public bool GetRightKeyPressed()
     {
         return _isRightKeyPressed;
     }
-
     public void UpdateRightKeyPressed(bool value)
     {
         _isRightKeyPressed = value;
     }
+    #endregion
 
+    #region jump keypressed
     public bool GetJumpKeyPressed()
     {
         return _isJumpKeyPressed;
@@ -83,7 +86,7 @@ public class GameManager : MonoBehaviour
     {
         _isJumpKeyPressed = value;
     }
-
+    #endregion
 
     public void PlayerStop()
     {
@@ -158,8 +161,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void DisplayLevel2()
-    {
-        Debug.Log("ere");
+    {        
         SceneManager.LoadScene(1);
         StartCoroutine(WaitReturnLevel(2, "level2"));
     }

@@ -1,13 +1,17 @@
 ﻿
 using System.Collections;
+using System.Diagnostics;
+using Assets.Scripts.Data;
 using UnityEngine;
 using TMPro;
 using Assets.Scripts.Properties;
+using Debug = UnityEngine.Debug;
 
 public class PlayerController : MonoBehaviour
 {
     
     [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask cliff;
 
     private Rigidbody2D _rb;
     private Animator _anim;
@@ -16,7 +20,9 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 16f;
     private bool hitEnemy = false;
     private bool isFalling = false;
-    private float speed = 8f;    
+    private float speed = 8f;
+
+    private bool collideWithLadder = false;
     
     private PlayerState state = PlayerState.idle;
 
@@ -30,40 +36,37 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        _coll = GetComponent<Collider2D>();        
-        
+        _coll = GetComponent<Collider2D>();
     }
+
     void Update()
-    {        
+    {
 
-
-        if (GameManager.instance.GetLeftKeyPressed())       
+        if (GameManager.instance.GetLeftKeyPressed())
         {
-             _rb.velocity = new Vector2(-speed, _rb.velocity.y);                        
+            _rb.velocity = new Vector2(-speed, _rb.velocity.y);
             transform.localScale = new Vector2(-1, 1);
-        } 
-        
+        }
+
         if (GameManager.instance.GetRightKeyPressed())
         {
-            _rb.velocity = new Vector2(speed, _rb.velocity.y);            
+            _rb.velocity = new Vector2(speed, _rb.velocity.y);
             transform.localScale = new Vector2(1, 1);
         }
 
         if (GameManager.instance.GetJumpKeyPressed())
         {
-            if (_coll.IsTouchingLayers(ground))
+            if (_coll.IsTouchingLayers(ground) || _coll.IsTouchingLayers(cliff))
             {
                 _player.IsJumping();
                 _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
                 state = PlayerState.jumping;
-
                 GameManager.instance.UpdateJumpKeyPressed(false);
             }
         }
-
+            
         if (state != PlayerState.hurt && GameManager.instance.GetEnableInput())
             Movement();
-                
 
         SetAnimation();
         _anim.SetInteger("state", (int)state);
@@ -80,16 +83,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {        
         DetectCollider(collision.gameObject);
+        if (collision.gameObject.tag == "Ladder")
+            collideWithLadder = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {        
+        if (collision.gameObject.tag == "Ladder")
+        {
+            collideWithLadder = false;
+            _rb.gravityScale = 5f;
+            _rb.velocity = new Vector2(3, _rb.velocity.y);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        DetectCollider(other.gameObject);
-    }
+        DetectCollider(other.gameObject);        
+    }    
 
     private void DetectCollider(GameObject collider)
     {
@@ -142,7 +156,7 @@ public class PlayerController : MonoBehaviour
         } else if (collider.gameObject.CompareTag("MovetoStage2"))
         {
             GameManager.instance.DisplayLevel2();
-        }
+        }        
     }
 
     IEnumerator WaitReturn(float value, Collider2D _coll)
@@ -171,19 +185,22 @@ public class PlayerController : MonoBehaviour
         {
             _rb.velocity = new Vector2(speed, _rb.velocity.y);
             transform.localScale = new Vector2(1, 1);            
-        }       
+        }
 
-        if (Input.GetButtonDown("Jump") && _coll.IsTouchingLayers(ground) && state != PlayerState.falling && state != PlayerState.jumping)
+        if (Input.GetButtonDown("Jump") &&
+            _coll.IsTouchingLayers(ground) &&
+            state != PlayerState.falling &&
+            state != PlayerState.jumping)
         {
-            Debug.Log("jump");
             _player.IsJumping();
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
-            state = PlayerState.jumping;            
+            state = PlayerState.jumping;
         }
+               
     }
 
     private void SetAnimation()
-    {
+    {        
         if (state == PlayerState.jumping) 
         {            
             if (_rb.velocity.y < 1f) 
@@ -192,7 +209,7 @@ public class PlayerController : MonoBehaviour
             }
         } else if (state == PlayerState.falling)
         {
-            if (_coll.IsTouchingLayers(ground))
+            if (_coll.IsTouchingLayers(ground) || _coll.IsTouchingLayers(cliff))
             {
                 state = PlayerState.idle;
             }
@@ -205,9 +222,9 @@ public class PlayerController : MonoBehaviour
         } else if (Mathf.Abs(_rb.velocity.x) > 1f)  
         {
             state = PlayerState.running;
-        } else
+        } else if ((Mathf.Abs(_rb.velocity.x) == 0f && _coll.IsTouchingLayers(ground)) || (_coll.IsTouchingLayers(cliff) && collideWithLadder == false))
         {
-            state = PlayerState.idle;  
+            state = PlayerState.idle;
         }        
     }
 }

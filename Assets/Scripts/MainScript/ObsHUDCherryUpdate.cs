@@ -13,7 +13,7 @@ public class ObsHUDCherryUpdate : MonoBehaviour
     
     void OnEnable()
     {
-        _player.Damage += PlayerDamage;        
+        _player.Damage += PlayerDamage;
     }
 
     void OnDisable()
