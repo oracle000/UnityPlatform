@@ -1,11 +1,8 @@
 ﻿
 using System.Collections;
-using System.Diagnostics;
-using Assets.Scripts.Data;
 using UnityEngine;
-using TMPro;
 using Assets.Scripts.Properties;
-using Debug = UnityEngine.Debug;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,9 +17,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 16f;
     private bool hitEnemy = false;
     private bool isFalling = false;
-    private float speed = 8f;
-
-    private bool collideWithLadder = false;
+    private float speed = 8f;    
     
     private PlayerState state = PlayerState.idle;
 
@@ -77,7 +72,14 @@ public class PlayerController : MonoBehaviour
             {                
                 isFalling = true;
                 _player.IsOutOfBounds();
-                transform.position = new Vector3(-8, -1, 15);
+
+                if (SceneManager.GetActiveScene().name == "Main")
+                {
+                    transform.position = new Vector3(-8, -1, 15);
+                } else if (SceneManager.GetActiveScene().name == "Level2")
+                {
+                    transform.position = new Vector3(-45, 0, 15);
+                }
                 isFalling = false;
             }
         }
@@ -85,21 +87,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {        
-        DetectCollider(collision.gameObject);
-        if (collision.gameObject.tag == "Ladder")
-            collideWithLadder = true;
+        DetectCollider(collision.gameObject);        
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {        
-        if (collision.gameObject.tag == "Ladder")
-        {
-            collideWithLadder = false;
-            _rb.gravityScale = 5f;
-            _rb.velocity = new Vector2(3, _rb.velocity.y);
-        }
-    }
-
+    
     private void OnCollisionEnter2D(Collision2D other)
     {
         DetectCollider(other.gameObject);        
@@ -156,7 +146,10 @@ public class PlayerController : MonoBehaviour
         } else if (collider.gameObject.CompareTag("MovetoStage2"))
         {
             GameManager.instance.DisplayLevel2();
-        }        
+        } else if (collider.gameObject.CompareTag("EndGame"))
+        {            
+            GameManager.instance.MainMenu();
+        }
     }
 
     IEnumerator WaitReturn(float value, Collider2D _coll)
@@ -222,7 +215,7 @@ public class PlayerController : MonoBehaviour
         } else if (Mathf.Abs(_rb.velocity.x) > 1f)  
         {
             state = PlayerState.running;
-        } else if ((Mathf.Abs(_rb.velocity.x) == 0f && _coll.IsTouchingLayers(ground)) || (_coll.IsTouchingLayers(cliff) && collideWithLadder == false))
+        } else if (Mathf.Abs(_rb.velocity.x) == 0f && _coll.IsTouchingLayers(ground))
         {
             state = PlayerState.idle;
         }        
