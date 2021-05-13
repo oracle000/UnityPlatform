@@ -21,7 +21,11 @@ public class GameManager : MonoBehaviour
 
     private bool _isLeftKeyPressed = false;
     private bool _isRightKeyPressed = false;
-    private bool _isJumpKeyPressed = false;    
+    private bool _isJumpKeyPressed = false;
+
+    public bool loadAds = false;
+    public bool loadMainMenuAds = false;
+    public bool loadRestartAds = false;
 
     private enum GameMode { MainMenu, Loading, Stage1, Stage2, Stage3};    
 
@@ -144,13 +148,14 @@ public class GameManager : MonoBehaviour
         playerScore = 0;
         playerLife = 3;
         _enableInput = true;
-        SceneManager.LoadScene(0);
+        loadMainMenuAds = true;
+        SceneManager.LoadScene(4);
     }
 
     public void Restart()
     {        
         playerScore = 0;
-        playerLife = 3;
+        playerLife = 3;        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -163,7 +168,7 @@ public class GameManager : MonoBehaviour
     public void DisplayLevel2()
     {        
         SceneManager.LoadScene(1);
-        StartCoroutine(WaitReturnLevel(2, "level2"));
+        loadAds = true;        
     }
 
     public bool GetOnPlayBgMusic()
