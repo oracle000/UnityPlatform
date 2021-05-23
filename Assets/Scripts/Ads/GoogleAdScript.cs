@@ -5,27 +5,30 @@ using GoogleMobileAds.Api;
 
 public class GoogleAdScript : MonoBehaviour
 {
-
+    
     private BannerView bannerView;
 
     public void Start()
     {
-        MobileAds.Initialize(InitStatus => { });
+        MobileAds.Initialize(initStatus => { });        
         RequestBanner();
     }
 
     private void RequestBanner()
     {
-
-        string adUnitId = "ca-app-pub-1177905240975126~2318963778";        
-        // string adUnitId = "ca-app-pub-3940256099942544~6300978111";        
-
-        this.bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
         
-        AdRequest request = new AdRequest.Builder().Build();
+#if UNITY_ANDROID
+        string adUnitId = "ca-app-pub-1177905240975126/2318963778";
+#elif UNITY_IPHONE
+            string adUnitId = "ca-app-pub-3940256099942544/2934735716";
+#else
+            string adUnitId = "unexpected_platform";
+#endif
 
-        Debug.Log(request);
-        this.bannerView.LoadAd(request);
+
+        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);        
+        AdRequest request = new AdRequest.Builder().Build();                
+        bannerView.LoadAd(request);
     }
 
 }

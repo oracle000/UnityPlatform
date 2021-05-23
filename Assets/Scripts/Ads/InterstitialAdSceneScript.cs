@@ -5,27 +5,36 @@ using UnityEngine.SceneManagement;
 
 public class InterstitialAdSceneScript : MonoBehaviour
 {
-    private InterstitialAd interstitial;
-
+    private InterstitialAd interstitial;    
 
     private void Start()
     {        
-        RequestInterstitial();
-        MobileAds.Initialize(initStatus => { });
+        RequestInterstitial();     
     }
 
     private void RequestInterstitial()
     {
 
-        string adUnitId = "ca-app-pub-1177905240975126~3402020703";
+        // string adUnitId = "ca-app-pub-1177905240975126/3402020703";
 
+#if UNITY_ANDROID
+        string adUnitId = "ca-app-pub-1177905240975126/3402020703";
+#elif UNITY_IPHONE
+        string adUnitId = "ca-app-pub-3940256099942544/4411468910";
+#else
+        string adUnitId = "unexpected_platform";
+#endif
 
         this.interstitial = new InterstitialAd(adUnitId);
+
+        if (this.interstitial != null)
+        {
+            this.interstitial.Destroy();
+        }
+
         AdRequest request = new AdRequest.Builder().Build();
         this.interstitial.LoadAd(request);
-
         this.interstitial.OnAdClosed += (sender, args) => HandleOnAdClosed(sender, args);
-
 
         if (this.interstitial.IsLoaded())
         {            
