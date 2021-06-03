@@ -160,8 +160,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void DisplayLevel1()
-    {
-        SceneManager.LoadScene(1);
+    {        
+        loadAds = true;
         StartCoroutine(WaitReturnLevel(2, "level1"));
     }
 

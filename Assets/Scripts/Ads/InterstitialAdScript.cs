@@ -10,12 +10,15 @@ public class InterstitialAdScript : MonoBehaviour
 
     private void Start()
     {
-        RequestInterstitial();        
-    }
+        Debug.Log("Run here");
+        RequestInterstitial();  
+    }    
 
     private void RequestInterstitial()
     {
-        // string adUnitId = "ca-app-pub-1177905240975126/3402020703";        
+        // prod ad ca-app-pub-1177905240975126/3402020703
+        // test ad ca-app-pub-3940256099942544/1033173712
+          
 
 #if UNITY_ANDROID
         string adUnitId = "ca-app-pub-1177905240975126/3402020703";
@@ -28,22 +31,57 @@ public class InterstitialAdScript : MonoBehaviour
 
         this.interstitial = new InterstitialAd(adUnitId);
 
-        if (this.interstitial != null)
-        {
-            this.interstitial.Destroy();
-        }
+        //if (this.interstitial != null)
+        //{
+        //    this.interstitial.Destroy();
+        //}
 
         AdRequest request = new AdRequest.Builder().Build();        
-        this.interstitial.LoadAd(request);
+        interstitial.LoadAd(request);
         this.interstitial.OnAdClosed += (sender, args) => HandleOnAdClosed(sender, args);
+        
 
-        if (this.interstitial.IsLoaded())
+        if (!GameManager.instance.loadAds)  // level 1
         {
-            if (GameManager.instance.loadAds)
+            if (this.interstitial.IsLoaded())
+            {                
+                if (GameManager.instance.loadAds)
+                {
+                    this.interstitial.Show();
+                }
+                else
+                {
+                    GameManager.instance.loadAds = false;
+                    SceneManager.LoadScene(2);
+                }
+            }
+            else
+            {                
+                GameManager.instance.loadAds = false;
+                SceneManager.LoadScene(2);
+            }
+        } else
+        {
+            if (this.interstitial.IsLoaded())
             {
-                this.interstitial.Show();                
+                if (GameManager.instance.loadAds)
+                {
+                    this.interstitial.Show();
+                }
+                else
+                {
+                    GameManager.instance.loadAds = false;
+                    SceneManager.LoadScene(3);
+                }
+            }
+            else
+            {
+                GameManager.instance.loadAds = false;
+                SceneManager.LoadScene(3);
             }
         }
+
+       
     }
 
     public void HandleOnAdClosed(object sender, EventArgs args)

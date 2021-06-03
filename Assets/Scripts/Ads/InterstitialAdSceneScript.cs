@@ -15,7 +15,8 @@ public class InterstitialAdSceneScript : MonoBehaviour
     private void RequestInterstitial()
     {
 
-        // string adUnitId = "ca-app-pub-1177905240975126/3402020703";
+        // prod ad ca-app-pub-1177905240975126/3402020703
+        // test ad ca-app-pub-3940256099942544/1033173712
 
 #if UNITY_ANDROID
         string adUnitId = "ca-app-pub-1177905240975126/3402020703";
@@ -39,6 +40,9 @@ public class InterstitialAdSceneScript : MonoBehaviour
         if (this.interstitial.IsLoaded())
         {            
             this.interstitial.Show();            
+        } else
+        {            
+            SceneManager.LoadScene(0);
         }
     }
 

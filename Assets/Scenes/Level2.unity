@@ -214,7 +214,6 @@ GameObject:
   - component: {fileID: 38733064}
   - component: {fileID: 38733063}
   - component: {fileID: 38733062}
-  - component: {fileID: 38733061}
   - component: {fileID: 38733065}
   m_Layer: 5
   m_Name: Left Button
@@ -243,18 +242,6 @@ RectTransform:
   m_AnchoredPosition: {x: -500, y: -58}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.49999997, y: 0.49999982}
---- !u!114 &38733061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38733059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d549feca3ccbb64cb42629744998b4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &38733062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10812,7 +10799,6 @@ GameObject:
   - component: {fileID: 616457188}
   - component: {fileID: 616457187}
   - component: {fileID: 616457186}
-  - component: {fileID: 616457185}
   - component: {fileID: 616457189}
   m_Layer: 5
   m_Name: Right Button
@@ -10841,18 +10827,6 @@ RectTransform:
   m_AnchoredPosition: {x: -342.99997, y: -58}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &616457185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616457183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ea36b747cf0c6449b691bc6191375b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &616457186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28594,10 +28568,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 745439822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 499f6a7c0f72c7348838bb163c02a35e, type: 3}
+  m_Script: {fileID: 11500000, guid: c4b3fc8ff76783d43975d06a09a7d54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  APP_ID: ca-app-pub-1177905240975126~1360077652
 --- !u!4 &745439824
 Transform:
   m_ObjectHideFlags: 0
@@ -32544,7 +32517,6 @@ GameObject:
   - component: {fileID: 1292606236}
   - component: {fileID: 1292606235}
   - component: {fileID: 1292606234}
-  - component: {fileID: 1292606233}
   - component: {fileID: 1292606237}
   m_Layer: 5
   m_Name: Up Button
@@ -32573,18 +32545,6 @@ RectTransform:
   m_AnchoredPosition: {x: 500, y: -58}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1292606233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1292606231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1735cee89fd4a9f4d855c612ea3ea58d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1292606234
 MonoBehaviour:
   m_ObjectHideFlags: 0
